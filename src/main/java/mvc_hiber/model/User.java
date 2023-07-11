@@ -1,29 +1,31 @@
 package mvc_hiber.model;
 
+import jakarta.persistence.*;
 import java.util.Objects;
 
+@Entity
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column
     private String name;
+    @Column
     private String lastName;
-    private String email;
+    @Column
+    private int age;
 
     public User() {
     }
 
-    public User(int id, String name, String lastName, String email) {
-        this.id = id;
+    public User(String name, String lastName, int age) {
         this.name = name;
         this.lastName = lastName;
-        this.email = email;
+        this.age = age;
     }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -42,12 +44,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
+    public int getAge() {
+        return age;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setAge(int age) {
+        this.age = age;
     }
 
     @Override
@@ -55,12 +57,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email);
+        return id == user.id && age == user.age && Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, lastName, email);
+        return Objects.hash(id, name, lastName, age);
     }
 
     @Override
@@ -69,7 +71,7 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
+                ", age=" + age +
                 '}';
     }
 }
