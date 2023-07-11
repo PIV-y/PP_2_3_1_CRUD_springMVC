@@ -21,7 +21,6 @@ public class UserDaoImp implements UserDao {
     private static final String SQL_DROP_USERS_TABLE = "DROP TABLE IF EXISTS testkata.users;";
     @Autowired
     private EntityManagerFactory entityManagerFactory;
-    private EntityManager entityManager = entityManagerFactory.createEntityManager();
 
     @Override
     public void createUsersTable() {
@@ -56,9 +55,10 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        EntityTransaction transaction = entityManager.getTransaction();
+        EntityTransaction transaction = null;
         List<User> list = new LinkedList<>();
-        try (EntityManager entityMan = entityManager){
+        try (EntityManager entityMan = entityManagerFactory.createEntityManager()){
+            transaction = entityMan.getTransaction();
             transaction.begin();
             list = entityMan.createQuery("from User", User.class).getResultList();
             transaction.commit();
