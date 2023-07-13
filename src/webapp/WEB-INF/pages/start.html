@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
+<html><html lang="en" xmlns:th="http://thymeleaf.org">
 <body>
-    <p>Hello!</p>
+    <h2>Hello!</h2>
     <p>How can I help you?</p>
 
-    <a href="/user_list">- Show users list</a>
+    <input type="button" value="Show users list"
+        onclick="window.location.href = '/user_list'"/>
+    <br>
+    <br>
+    <input type="button" value="Add user"
+        onclick="window.location.href = '/user_info'"/>
+
 </body>
 </html>

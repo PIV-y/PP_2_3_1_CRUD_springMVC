@@ -12,25 +12,9 @@ import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
-    private static final String SQL_CREATE_USERS_TABLE = "CREATE TABLE IF NOT EXISTS `testkata`.`users` (" +
-            "`id` BIGINT(255) NOT NULL AUTO_INCREMENT, " +
-            "`name` VARCHAR(45) NULL , " +
-            "`lastName` VARCHAR(45) NULL, " +
-            "`age` TINYINT NULL, " +
-            "PRIMARY KEY (`id`));";
     private static final String SQL_DROP_USERS_TABLE = "DROP TABLE IF EXISTS testkata.users;";
     @Autowired
     private EntityManagerFactory entityManagerFactory;
-
-    @Override
-    public void createUsersTable() {
-//        Transaction transaction = null;\
-//        try (Session session = sessionFactory.openSession()){
-//            transaction = session.beginTransaction();
-//            session.createNativeQuery(SQL_CREATE_USERS_TABLE).executeUpdate();
-//            transaction.commit();
-//        }
-    }
 
     @Override
     public void dropUsersTable() {
@@ -45,7 +29,9 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public void saveUser(User user) {
-//        entityManagerFactory. .save(user);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.persist(user);
+        entityManager.close();
     }
 
     @Override

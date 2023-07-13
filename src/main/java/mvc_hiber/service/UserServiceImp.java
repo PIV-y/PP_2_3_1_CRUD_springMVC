@@ -3,6 +3,7 @@ package mvc_hiber.service;
 import mvc_hiber.dao.UserDao;
 import mvc_hiber.model.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service
@@ -14,16 +15,12 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void createUsersTable() {
-        userDao.createUsersTable();
-    }
-
-    @Override
     public void dropUsersTable() {
         userDao.dropUsersTable();
     }
 
     @Override
+    @Transactional
     public void saveUser(User user) {
         userDao.saveUser(user);
     }
@@ -34,6 +31,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }

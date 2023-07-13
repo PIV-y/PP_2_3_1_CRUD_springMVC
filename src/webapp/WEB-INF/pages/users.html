@@ -1,10 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title></title>
-</head>
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <body>
   <h1>Users List</h1>
   <table border="1">
@@ -21,5 +16,11 @@
       <td th:utext="${user.current.getAge()}">Age</td>
     </tr>
   </table>
+  <br>
+  <input type="button" value="Add user"
+         onclick="window.location.href = '/user_info'"/>
+  <br><br>
+  <input type="button" value="Back to menu"
+         onclick="window.location.href = '/'"/>
 </body>
 </html>
