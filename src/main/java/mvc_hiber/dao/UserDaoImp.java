@@ -1,35 +1,35 @@
 package mvc_hiber.dao;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceContext;
 import mvc_hiber.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
-    private static final String SQL_DROP_USERS_TABLE = "DROP TABLE IF EXISTS testkata.users;";
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
+    private static final String HQL_CREATE_USERS_TABLE = "CREATE TABLE User";
+    private static final String HQL_DROP_USERS_TABLE = "DROP TABLE User";
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
+    @Transactional
     public void dropUsersTable() {
-//        Transaction transaction = null;
-//        try (Session session = sessionFactory.openSession()){
-//            transaction = session.beginTransaction();
-//            session.createNativeQuery(SQL_DROP_USERS_TABLE).executeUpdate();
-//            transaction.commit();
-//            System.out.println("Table has been deleted.");
-//        }
+        entityManager.createNativeQuery(HQL_DROP_USERS_TABLE).executeUpdate();
+    }
+
+    @Override
+    @Transactional
+    public void createUsersTable() {
+        entityManager.createNativeQuery(HQL_CREATE_USERS_TABLE).executeUpdate();
     }
 
     @Override
     public void saveUser(User user) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.persist(user);
         entityManager.close();
     }
@@ -40,21 +40,10 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
+    @Transactional
     public List<User> getAllUsers() {
-        EntityTransaction transaction = null;
-        List<User> list = new LinkedList<>();
-        try (EntityManager entityMan = entityManagerFactory.createEntityManager()){
-            transaction = entityMan.getTransaction();
-            transaction.begin();
-            list = entityMan.createQuery("from User", User.class).getResultList();
-            transaction.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            transaction.rollback();
-        }
-        return list;
+        return entityManager.createQuery("from User", User.class).getResultList();
     }
-
     @Override
     public void cleanUsersTable() {
 //        TypedQuery query = (TypedQuery) sessionFactory.getCurrentSession().createQuery("DELETE User");

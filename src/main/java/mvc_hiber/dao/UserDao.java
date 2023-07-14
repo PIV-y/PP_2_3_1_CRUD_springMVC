@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserDao {
 
     void dropUsersTable();
-
+    void createUsersTable();
     void saveUser(User user);
 
     void removeUserById(long id);

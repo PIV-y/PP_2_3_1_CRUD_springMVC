@@ -18,13 +18,12 @@ public class UserController {
 
     @RequestMapping("/")
     public String printStart (ModelMap model) {
-//        userService.createUsersTable();
         model.addAttribute("messages", "HEllO");
         return "start";
     }
     @RequestMapping("/user_list")
     public String printUserList (ModelMap model) {
-        model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("user", userService.getAllUsers());
         return "users";
     }
 
@@ -40,5 +39,16 @@ public class UserController {
         System.out.println("user added!!! "
                 + user.getName() + user.toString());
         return "redirect:/user_list";
+    }
+    @RequestMapping("/delete_all_users")
+    public String deleteAllUsers () {
+        userService.dropUsersTable();
+    return  "create-newtable";
+    }
+
+    @RequestMapping("/create_newtable")
+    public String createNewTable () {
+        userService.createUsersTable();
+    return "redirect:/user_list";
     }
 }

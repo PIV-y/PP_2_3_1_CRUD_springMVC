@@ -20,6 +20,11 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public void createUsersTable() {
+        userDao.createUsersTable();
+    }
+
+    @Override
     @Transactional
     public void saveUser(User user) {
         userDao.saveUser(user);
