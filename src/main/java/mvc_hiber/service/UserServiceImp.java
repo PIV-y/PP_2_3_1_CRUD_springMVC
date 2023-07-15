@@ -15,13 +15,8 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void dropUsersTable() {
-        userDao.dropUsersTable();
-    }
-
-    @Override
-    public void createUsersTable() {
-        userDao.createUsersTable();
+    public void dropData() {
+        userDao.dropData();
     }
 
     @Override
@@ -39,10 +34,5 @@ public class UserServiceImp implements UserService {
     @Transactional
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
-    }
-
-    @Override
-    public void cleanUsersTable() {
-        userDao.cleanUsersTable();
     }
 }

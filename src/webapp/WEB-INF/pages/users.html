@@ -20,10 +20,21 @@
   <input type="button" value="Add user"
          onclick="window.location.href = '/user_info'"/>
   <br><br>
+  <input type="button" value="Clean Table"
+         onclick="window.location.href = '/clean_table'"/>
+
+  <br><br>
   <input type="button" value="Back to menu"
          onclick="window.location.href = '/'"/>
+
   <br><br>
-  <input type="button" value="Delete Table"
-         onclick="window.location.href = '/delete_all_users'"/>
+
+  <form th:method="POST" th:action="@{/delete_by_id}">
+    <label for="id">Delete by ID:</label>
+    <input type="text" name="id" id="id"/>
+    <br><br>
+    <input type="submit" value="delete">
+  </form>
+
 </body>
 </html>

@@ -10,22 +10,15 @@ import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
-    private static final String HQL_CREATE_USERS_TABLE = "CREATE TABLE User";
-    private static final String HQL_DROP_USERS_TABLE = "DROP TABLE User";
+    private static final String HQL_DROP_USERS_TABLE = "TRUNCATE TABLE User";
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     @Transactional
-    public void dropUsersTable() {
+    public void dropData() {
         entityManager.createNativeQuery(HQL_DROP_USERS_TABLE).executeUpdate();
-    }
-
-    @Override
-    @Transactional
-    public void createUsersTable() {
-        entityManager.createNativeQuery(HQL_CREATE_USERS_TABLE).executeUpdate();
     }
 
     @Override
@@ -35,8 +28,11 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
+    @Transactional
     public void removeUserById(long id) {
-
+        entityManager.createQuery("DELETE from User u where u.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
     }
 
     @Override
@@ -44,8 +40,5 @@ public class UserDaoImp implements UserDao {
     public List<User> getAllUsers() {
         return entityManager.createQuery("from User", User.class).getResultList();
     }
-    @Override
-    public void cleanUsersTable() {
-//        TypedQuery query = (TypedQuery) sessionFactory.getCurrentSession().createQuery("DELETE User");
-    }
+
 }

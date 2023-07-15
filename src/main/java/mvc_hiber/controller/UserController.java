@@ -7,6 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
@@ -40,15 +41,15 @@ public class UserController {
                 + user.getName() + user.toString());
         return "redirect:/user_list";
     }
-    @RequestMapping("/delete_all_users")
+    @RequestMapping("/clean_table")
     public String deleteAllUsers () {
-        userService.dropUsersTable();
-    return  "create-newtable";
+        userService.dropData();
+        return  "redirect:/user_list";
     }
 
-    @RequestMapping("/create_newtable")
-    public String createNewTable () {
-        userService.createUsersTable();
-    return "redirect:/user_list";
+    @PostMapping("/delete_by_id")
+    public String deleteUserByID (@RequestParam("id") long id) {
+        userService.removeUserById(id);
+        return "redirect:/user_list";
     }
 }
