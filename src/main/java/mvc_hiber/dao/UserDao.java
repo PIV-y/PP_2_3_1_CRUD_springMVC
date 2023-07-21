@@ -14,4 +14,8 @@ public interface UserDao {
 
     List<User> getAllUsers();
 
+    void changeByID(long id, User user);
+
+    User getUserById(long id);
+
 }

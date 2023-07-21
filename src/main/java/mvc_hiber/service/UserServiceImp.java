@@ -35,4 +35,14 @@ public class UserServiceImp implements UserService {
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
+
+    @Override
+    public void changeByID(long id, User user) {
+        userDao.changeByID(id, user);
+    }
+
+    @Override
+    public User getUserById(long id) {
+        return userDao.getUserById(id);
+    }
 }

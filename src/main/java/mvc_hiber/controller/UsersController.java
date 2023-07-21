@@ -3,33 +3,33 @@ package mvc_hiber.controller;
 import mvc_hiber.model.User;
 import mvc_hiber.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class UserController {
+@RequestMapping("/")
+public class UsersController {
     private UserService userService;
 
-    public UserController(UserService userService) {
+    public UsersController(UserService userService) {
         this.userService = userService;
     }
 
-    @RequestMapping("/")
-    public String printStart (ModelMap model) {
+// GET
+    @GetMapping()
+    public String printStart (Model model) {
         model.addAttribute("messages", "HEllO");
         return "start";
     }
-    @RequestMapping("/user_list")
-    public String printUserList (ModelMap model) {
+    @GetMapping("/user_list")
+    public String printUserList (Model model) {
         model.addAttribute("user", userService.getAllUsers());
         return "users";
     }
 
-    @RequestMapping("/user_info")
-    public String addNewUserInfo (ModelMap model) {
+// POST
+    @GetMapping("/user_info")
+    public String addNewUserInfo (Model model) {
         model.addAttribute("user", new User());
         System.out.println("форма открылась");
     return "user-info";
@@ -41,15 +41,34 @@ public class UserController {
                 + user.getName() + user.toString());
         return "redirect:/user_list";
     }
+
+// GET USER FOR CHANGES
+    @PostMapping("/{id}/update")
+    public String editUser(Model model, @RequestParam("id") int id) {
+        model.addAttribute("user", userService.getUserById(id));
+        System.out.println(model.toString());
+        return "edit";
+    }
+
+
+// DELETE
     @RequestMapping("/clean_table")
     public String deleteAllUsers () {
         userService.dropData();
         return  "redirect:/user_list";
     }
 
-    @PostMapping("/delete_by_id")
+    @DeleteMapping("/{id}/delete")
     public String deleteUserByID (@RequestParam("id") long id) {
         userService.removeUserById(id);
+        return "redirect:/user_list";
+    }
+
+// PATCH
+    @PatchMapping("/{id}/change")
+    public String update (@ModelAttribute("user") User user, @PathVariable("id") int id) {
+        System.out.println(user.toString());
+        userService.changeByID(id, user);
         return "redirect:/user_list";
     }
 }

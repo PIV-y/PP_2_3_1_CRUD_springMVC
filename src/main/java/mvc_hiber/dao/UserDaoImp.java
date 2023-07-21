@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public class UserDaoImp implements UserDao {
     private static final String HQL_DROP_USERS_TABLE = "TRUNCATE TABLE User";
+    private static final String HQL_GET_USER_BY_ID = "SELECT u FROM User u WHERE u.id = :id";
+    private static final String HQL_REMOVE_USER_BY_ID = "DELETE FROM User u WHERE u.id = :id";
+    private static final String HQL_CHANGE_USER_BY_ID = "UPDATE User u SET u.name=:name, u.lastName=: lastname, u.age=:age WHERE u.id = :id";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -30,7 +33,7 @@ public class UserDaoImp implements UserDao {
     @Override
     @Transactional
     public void removeUserById(long id) {
-        entityManager.createQuery("DELETE from User u where u.id = :id")
+        entityManager.createQuery(HQL_REMOVE_USER_BY_ID)
                 .setParameter("id", id)
                 .executeUpdate();
     }
@@ -41,4 +44,21 @@ public class UserDaoImp implements UserDao {
         return entityManager.createQuery("from User", User.class).getResultList();
     }
 
+    @Override
+    @Transactional
+    public void changeByID(long id, User user) {
+        entityManager.createQuery(HQL_CHANGE_USER_BY_ID)
+                .setParameter("id", id)
+                .setParameter("name", user.getName())
+                .setParameter("lastname", user.getLastName())
+                .setParameter("age", user.getAge())
+                .executeUpdate();
+    }
+
+    @Override
+    public User getUserById(long id) {
+        return (User) entityManager.createQuery(HQL_GET_USER_BY_ID)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
 }
