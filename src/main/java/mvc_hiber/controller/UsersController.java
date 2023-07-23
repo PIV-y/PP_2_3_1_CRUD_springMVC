@@ -64,10 +64,8 @@ public class UsersController {
     }
 
 // PATCH
-    //, @PathVariable("id") int id
     @PatchMapping ("/change")
     public String update (@ModelAttribute("user") User user) {
-//        user.setId(id);
         System.out.println("Обновленный юзер пришел: " + user.toString());
         userService.changeByID(user);
         System.out.println("юзер ушел в БД");
