@@ -15,6 +15,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
     public void dropData() {
         userDao.dropData();
     }
@@ -26,6 +27,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
     public void removeUserById(long id) {
         userDao.removeUserById(id);
     }
@@ -37,11 +39,13 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void changeByID(long id, User user) {
-        userDao.changeByID(id, user);
+    @Transactional
+    public void changeByID(User user) {
+        userDao.changeByID(user);
     }
 
     @Override
+    @Transactional
     public User getUserById(long id) {
         return userDao.getUserById(id);
     }

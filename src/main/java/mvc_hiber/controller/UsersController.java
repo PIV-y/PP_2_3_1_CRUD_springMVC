@@ -43,13 +43,12 @@ public class UsersController {
     }
 
 // GET USER FOR CHANGES
-    @PostMapping("/{id}/update")
+    @RequestMapping("/{id}/update")
     public String editUser(Model model, @RequestParam("id") int id) {
         model.addAttribute("user", userService.getUserById(id));
         System.out.println(model.toString());
         return "edit";
     }
-
 
 // DELETE
     @RequestMapping("/clean_table")
@@ -65,10 +64,13 @@ public class UsersController {
     }
 
 // PATCH
-    @PatchMapping("/{id}/change")
-    public String update (@ModelAttribute("user") User user, @PathVariable("id") int id) {
-        System.out.println(user.toString());
-        userService.changeByID(id, user);
+    //, @PathVariable("id") int id
+    @PatchMapping ("/change")
+    public String update (@ModelAttribute("user") User user) {
+//        user.setId(id);
+        System.out.println("Обновленный юзер пришел: " + user.toString());
+        userService.changeByID(user);
+        System.out.println("юзер ушел в БД");
         return "redirect:/user_list";
     }
 }

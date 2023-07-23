@@ -46,16 +46,19 @@ public class UserDaoImp implements UserDao {
 
     @Override
     @Transactional
-    public void changeByID(long id, User user) {
+    public void changeByID(User user) {
         entityManager.createQuery(HQL_CHANGE_USER_BY_ID)
-                .setParameter("id", id)
+                .setParameter("id", user.getId())
                 .setParameter("name", user.getName())
                 .setParameter("lastname", user.getLastName())
                 .setParameter("age", user.getAge())
                 .executeUpdate();
+        System.out.println("пришел в DAO: " + user.toString());
+        System.out.println("Получили из БД: " + getUserById(user.getId()).toString());
     }
 
     @Override
+    @Transactional
     public User getUserById(long id) {
         return (User) entityManager.createQuery(HQL_GET_USER_BY_ID)
                 .setParameter("id", id)
